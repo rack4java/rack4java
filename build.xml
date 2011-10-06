@@ -88,31 +88,6 @@
         <copy file="LICENSE.txt" tofile="${dist.dir}/${Name}.license.txt"/>
     </target>
 
-
-    <!-- ====================================================================== -->
-    <!-- Create the distribution                                                -->
-    <!-- ====================================================================== -->
-
-    <target name="dist" depends="clean, jar">
-        <echo message="Building the JRack demo web app ..."/>
-        <copy todir="${dist.dir}/${name}">
-            <fileset dir="${web.dir}" includes="**/*.*"/>
-            <fileset dir="${web.dir}" includes="**/*"/>
-        </copy>
-
-        <copy todir="${dist.dir}/${name}/WEB-INF/lib">
-            <fileset dir="${lib.dir}">
-                <include name="**/*.jar"/>
-                <include name="**/*.txt"/>
-            </fileset>
-            <fileset dir="${dist.dir}">
-                <include name="**/*.jar"/>
-                <include name="**/*.txt"/>
-            </fileset>
-        </copy>
-
-    </target>
-
     <!-- ====================================================================== -->
     <!-- Clean up generated stuff                                               -->
     <!-- ====================================================================== -->
