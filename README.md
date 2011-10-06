@@ -8,14 +8,14 @@ The goals of this fork are:
 
 1. To strip the project down to the absolute minimum, with no external dependencies
 2. To ensure that it works acceptably for all types of HTTP request and response
-3. To be as compatible with the original [**Rack* specification][3] as possible
+3. To be as compatible with the original [**Rack** specification][3] as possible
 
 All of these goals contribute to the overall aim of using JRack like the original **Rack** - 
 as a very thin, agnostic layer to connect wildly different types of web servers and applications. 
 In particular this means removing any dependency in JRack on the Servlet API, so that it can be 
 used with non-servlet servers.
 
-# Associated projects
+# Associated Projects
 
 * An example [JRack wrapper for the Jetty web server, using the Servlet API][4].
 
@@ -36,9 +36,7 @@ This is work in progress:
 TODO
 ----
 
-* Remove all dependencies
 * add tests for different cases (binary data, empty data, multiple headers, etc..)
-* update build script to ensure that examples and tests are not included in jrack.jar 
 * publish to a maven repo somewhere
 
 DONE
@@ -47,6 +45,7 @@ DONE
 * Strip out servlet dependencies from JRack and examples
 * improve test coverage of existing examples
 * support easier header syntax 
+* Remove all dependencies
 
 
 [1]: https://github.com/florinpatrascu/jrack
