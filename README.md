@@ -15,6 +15,10 @@ as a very thin, agnostic layer to connect wildly different types of web servers 
 In particular this means removing any dependency in JRack on the Servlet API, so that it can be 
 used with non-servlet servers.
 
+# Associated projects
+
+* An example [JRack wrapper for the Jetty web server, using the Servlet API][4].
+
 # Building
 
 To build JRack you will need a java compiler and Ant.
@@ -48,4 +52,5 @@ DONE
 [1]: https://github.com/florinpatrascu/jrack
 [2]: https://sourceforge.net/projects/approvaltests/files/
 [3]: http://rack.rubyforge.org/doc/files/SPEC.html
+[4]: https://github.com/efficacy/jrack-jetty
 

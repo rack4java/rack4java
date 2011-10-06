@@ -39,4 +39,8 @@ public class RackResponse {
     public int getStatus() {
         return status;
     }
+    
+    public void addHeader(String key, String value) {
+    	headers.put(key, value);
+    }
 }

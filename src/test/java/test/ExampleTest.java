@@ -6,7 +6,7 @@ import java.util.Map;
 import junit.framework.TestCase;
 
 import org.jrack.RackResponse;
-import org.jrack.examples.HelloWorldRack;
+import org.jrack.examples.HelloWorld;
 
 public class ExampleTest extends TestCase {
 	
@@ -17,7 +17,7 @@ public class ExampleTest extends TestCase {
 	}
 	
     public void testHelloWorld() throws Exception {
-    	RackResponse ret = new HelloWorldRack().call(env);
+    	RackResponse ret = new HelloWorld().call(env);
     	
     	assertEquals(200, ret.getStatus());
     	assertEquals("text/html;charset=utf-8", ret.getHeaders().get("Content-Type"));
