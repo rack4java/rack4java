@@ -1,13 +1,14 @@
 package org.jrack.examples;
 
+import java.util.Map;
+
 import org.jrack.JRack;
 import org.jrack.RackResponse;
-import org.jrack.RackResponseUtils;
-
-import java.util.Map;
 
 public class HelloWorldRack implements JRack {
     public RackResponse call(Map<String, Object> input) {
-        return RackResponseUtils.standardHtml("Hello World");
+        return new RackResponse(200, 
+        		"Hello World", 
+        		"Content-Type", "text/html;charset=utf-8");
     }
 }

@@ -1,8 +1,10 @@
-package org.jrack;
+package org.jrack.jservlet;
 
-import org.jrack.logging.JRackLogger;
-import org.jrack.logging.Slf4jLogger;
-import org.jrack.utils.ClassUtilities;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -11,29 +13,36 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
+import org.jrack.JRack;
+import org.jrack.RackEnvironment;
+import org.jrack.RackResponse;
+import org.jrack.utils.ClassUtilities;
+import org.jrack.utils.LiteralMap;
+
+@SuppressWarnings("serial") 
 public class RackServlet extends HttpServlet {
-    private JRackLogger logger = new Slf4jLogger(RackServlet.class.getName());
+	private static final Map<String, Object> commonEnvironment = new LiteralMap<String, Object>(
+		    RackEnvironment.RACK_VERSION, Arrays.asList(1, 1),
+		    RackEnvironment.RACK_ERRORS, new OutputStreamWriter(System.err),
+		    RackEnvironment.RACK_MULTITHREAD, true,
+		    RackEnvironment.RACK_MULTIPROCESS, true,
+		    RackEnvironment.RACK_RUN_ONCE, false
+		);
+	
     private JRack rack;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
 
-        //todo jrack yaml config file
-        String rackClass = config.getInitParameter("rack");
-        //todo user logging
+        String rackClass = config.getInitParameter("rackClass");
 
         try {
-            setRack((JRack) ClassUtilities.loadClass(rackClass).newInstance());
+            rack = ((JRack) ClassUtilities.loadClass(rackClass).newInstance());
         } catch (Exception e) {
             throw new ServletException("Cannot load: " + rackClass);
         }
-
-        logger.log(String.format("%s; active ....", rackClass));
     }
 
     /**
@@ -65,6 +74,8 @@ public class RackServlet extends HttpServlet {
 
     private Map<String, Object> getEnvironment(HttpServletRequest req) {
         Map<String, Object> environment = new HashMap<String, Object>();
+        environment.putAll(commonEnvironment);
+        
         environment.put(RackEnvironment.REQUEST_METHOD, req.getMethod());
         environment.put(RackEnvironment.PATH_INFO, req.getPathInfo());
         environment.put(RackEnvironment.QUERY_STRING, req.getQueryString());
@@ -78,18 +89,9 @@ public class RackServlet extends HttpServlet {
         environment.put(RackEnvironment.HTTP_CONNECTION, req.getHeader("Connection"));
         environment.put(RackEnvironment.HTTP_ACCEPT, req.getHeader("Accept"));
         environment.put(RackEnvironment.HTTP_ACCEPT_CHARSET, req.getHeader("Accept-Charset"));
-        environment.put(RackEnvironment.REMOTE_ADDR, req.getRemoteAddr());
-        environment.put(RackEnvironment.REMOTE_HOST, req.getRemoteHost());
-        environment.put(RackEnvironment.REMOTE_USER, req.getRemoteUser());
-        environment.put(RackEnvironment.REQUEST_PATH, req.getRequestURI());
-        environment.put(RackEnvironment.REQUEST_URL, req.getPathTranslated());
-        environment.put(RackEnvironment.HTTP_KEEP_ALIVE, req.getHeader("Keep-Alive"));
-        environment.put(RackEnvironment.HTTP_VERSION, req.getProtocol());
-        environment.put(RackEnvironment.SERVER_PROTOCOL, req.getProtocol());
-
-        environment.put(RackEnvironment.HTTP_SERVLET_REQUEST, req);
-        environment.put(RackEnvironment.REQUEST, req); //convenience
-        environment.put(RackEnvironment.LOGGER, logger);
+        
+        environment.put(RackEnvironment.RACK_URL_SCHEME, req.getScheme());
+        
         return environment;
     }
 
@@ -97,14 +99,6 @@ public class RackServlet extends HttpServlet {
     @Override
     public void service(ServletRequest req, ServletResponse res) throws ServletException, IOException {
         processCall((HttpServletRequest) req, (HttpServletResponse) res);
-    }
-
-    public JRack getRack() {
-        return rack;
-    }
-
-    public void setRack(JRack rack) {
-        this.rack = rack;
     }
 
     public static Error throwAsError(Throwable t) throws Error {

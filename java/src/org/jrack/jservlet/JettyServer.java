@@ -1,7 +1,6 @@
-package org.jrack.utils;
+package org.jrack.jservlet;
 
 import org.jrack.JRack;
-import org.jrack.RackServlet;
 import org.jrack.examples.EchoRack;
 import org.mortbay.jetty.Connector;
 import org.mortbay.jetty.Server;
@@ -18,8 +17,8 @@ import org.slf4j.LoggerFactory;
  * @author <a href="mailto:florin.patrascu@gmail.com">Florin T.PATRASCU</a>
  * @since $Revision$ (created: 11-07-30 4:10 PM)
  */
-public class JettyUtils {
-    protected static final Logger log = LoggerFactory.getLogger(JettyUtils.class);
+public class JettyServer {
+    protected static final Logger log = LoggerFactory.getLogger(JettyServer.class);
     public static final String DEFAULT_SERVER_ADDRESS = "127.0.0.1";
 
     public static void start(String host, int port, JRack rack) {

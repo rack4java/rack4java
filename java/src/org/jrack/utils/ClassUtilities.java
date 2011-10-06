@@ -47,14 +47,6 @@
 package org.jrack.utils;
 
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.io.InputStream;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Useful class management utilities.
  *
@@ -62,10 +54,8 @@ import java.util.List;
  * @author Florin PATRASCU
  */
 
+@SuppressWarnings("rawtypes") 
 public class ClassUtilities {
-
-    private static Logger log = LoggerFactory.getLogger(ClassUtilities.class);
-
     /**
      * Load the specified class name.  This method will first attempt to load
      * the class using the context class loader.  If that fails due to a
@@ -120,172 +110,13 @@ public class ClassUtilities {
         try {
             return cl.loadClass(className);
         } catch (ClassNotFoundException e) {
-            log.warn(className + "; ClassNotFoundException using thread context class loader");
+            System.err.println(className + "; ClassNotFoundException using thread context class loader");
             cl = requestor.getClass().getClassLoader();
             return cl.loadClass(className);
         } catch (SecurityException e) {
-            log.warn(className + "; SecurityException using thread context class loader");
+        	System.err.println(className + "; SecurityException using thread context class loader");
             cl = requestor.getClass().getClassLoader();
             return cl.loadClass(className);
         }
     }
-
-    /**
-     * Load the specified resource.  This method will first attempt to load
-     * the class using the context class loader.  If that fails due to a
-     * ClassNotFoundException or a SecurityException then the ClassUtilities
-     * class loader is used.
-     *
-     * @param name The resource name
-     * @return The resource URL or null
-     */
-
-    public static URL getResource(String name) {
-        return getResource(name, null);
-    }
-
-    /**
-     * Load the specified resource.  This method will first attempt to load
-     * the class using the context class loader.  If that fails due to a
-     * ClassNotFoundException or a SecurityException then the requestor's
-     * class loader is used.  If the requestor object is null then the
-     * ClassUtilities class loader is used.
-     *
-     * @param name      The resource name
-     * @param requestor The object requesting the resource or null
-     * @return The resource URL or null
-     */
-
-    public static URL getResource(String name, Object requestor) {
-        Class requestorClass = requestor == null ? ClassUtilities.class : requestor.getClass();
-        return getResource(name, requestorClass);
-    }
-
-    /**
-     * Load the specified resource.  This method will first attempt to load
-     * the class using the context class loader.  If that fails due to a
-     * ClassNotFoundException or a SecurityException then the requestor's
-     * class loader is used.  If the requestor object is null then the
-     * ClassUtilities class loader is used.
-     *
-     * @param name      The resource name
-     * @param requestor The class of the object requesting the resource or null
-     * @return The resource URL or null
-     */
-
-    public static URL getResource(String name, Class requestor) {
-        URL resource;
-        ClassLoader cl = Thread.currentThread().getContextClassLoader();
-        resource = cl.getResource(name);
-
-        if (resource == null) {
-            cl = requestor.getClass().getClassLoader();
-            resource = cl.getResource(name);
-        }
-        return resource;
-    }
-
-    /**
-     * Load the specified resource stream.  This method will first attempt to
-     * load the class using the context class loader.  If that fails due to a
-     * ClassNotFoundException or a SecurityException then ClassUtilities class
-     * loader is used.
-     *
-     * @param name The resource name
-     * @return The resource stream or null
-     */
-
-    public static InputStream getResourceAsStream(String name) {
-        return getResourceAsStream(name, null);
-    }
-
-    /**
-     * Load the specified resource stream.  This method will first attempt to
-     * load the class using the context class loader.  If that fails due to a
-     * ClassNotFoundException or a SecurityException then the requestor's
-     * class loader is used.  If the requestor object is null then the
-     * ClassUtilities class loader is used.
-     *
-     * @param name      The class name
-     * @param requestor The object requesting the resource or null
-     * @return The resource stream or null
-     */
-
-    public static InputStream getResourceAsStream(String name,
-                                                  Object requestor) {
-
-        Class requestorClass = requestor == null ? ClassUtilities.class : requestor.getClass();
-        return getResourceAsStream(name, requestorClass);
-    }
-
-    /**
-     * Load the specified resource stream.  This method will first attempt to
-     * load the class using the context class loader.  If that fails due to a
-     * ClassNotFoundException or a SecurityException then the requestor's
-     * class loader is used.  If the requestor object is null then the
-     * ClassUtilities class loader is used.
-     *
-     * @param name      The class name
-     * @param requestor The class of the object requesting the resource or null
-     * @return The resource stream or null
-     */
-
-    public static InputStream getResourceAsStream(String name,
-                                                  Class requestor) {
-        InputStream resourceStream = null;
-        ClassLoader cl = Thread.currentThread().getContextClassLoader();
-        resourceStream = cl.getResourceAsStream(name);
-        if (resourceStream == null) {
-            cl = requestor.getClass().getClassLoader();
-            resourceStream = cl.getResourceAsStream(name);
-        }
-        return resourceStream;
-    }
-
-    /**
-     * Find all super classes and implemented interfaces for the given
-     * class.
-     *
-     * @param startClass The class
-     * @return A List of Class objects
-     */
-
-    public static List getAllClassesAndInterfaces(Class startClass) {
-        ArrayList classes = new ArrayList();
-
-        addClassesAndInterfaces(startClass, classes);
-
-        return classes;
-    }
-
-    /**
-     * Add all super classes and interfaces of the given class to the given
-     * List.
-     *
-     * @param c       The Class
-     * @param classes An List of Classes
-     */
-
-    protected static void addClassesAndInterfaces(Class c, List classes) {
-        if (c != null) {
-            Class superClass = c.getSuperclass();
-            Class[] interfaces = c.getInterfaces();
-
-            if (superClass != null && !classes.contains(superClass)) {
-                classes.add(superClass);
-            }
-
-            for (Class anInterface : interfaces) {
-                if (anInterface != null && !classes.contains(anInterface)) {
-                    classes.add(anInterface);
-                }
-            }
-
-            addClassesAndInterfaces(superClass, classes);
-            for (Class anInterface : interfaces) {
-                addClassesAndInterfaces(anInterface, classes);
-            }
-        }
-    }
-
 }

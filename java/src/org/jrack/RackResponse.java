@@ -3,23 +3,29 @@ package org.jrack;
 import java.nio.CharBuffer;
 import java.util.Map;
 
+import org.jrack.utils.LiteralMap;
+
 public class RackResponse {
     private CharSequence response;
     private final Map<String, String> headers;
     private int status;
 
-    public RackResponse(int status, Map<String, String> headers, String response) {
-        this(status, headers, (CharSequence) response);
-    }
-
-    public RackResponse(int status, Map<String, String> headers, char[] byteResponse) {
-        this(status, headers, CharBuffer.wrap(byteResponse));
-    }
-
-    public RackResponse(int status, Map<String, String> headers, CharSequence response) {
+    public RackResponse(int status, CharSequence response, Map<String, String> headers) {
         this.status = status;
-        this.headers = headers;
         this.response = response;
+        this.headers = headers;
+    }
+
+	public RackResponse(int status, char[] byteResponse, Map<String, String> headers) {
+        this(status, CharBuffer.wrap(byteResponse), headers);
+    }
+
+    public RackResponse(int status, CharSequence response, String... headers) {
+        this(status, response, new LiteralMap<String,String>((Object[])headers));
+    }
+
+	public RackResponse(int status, char[] byteResponse, String... headers) {
+        this(status, CharBuffer.wrap(byteResponse), headers);
     }
 
     public CharSequence getResponse() {
