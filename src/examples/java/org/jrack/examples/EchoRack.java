@@ -9,10 +9,6 @@ import org.jrack.JRack;
 import org.jrack.RackEnvironment;
 import org.jrack.RackResponse;
 
-/**
- * @author <a href="mailto:florin.patrascu@gmail.com">Florin T.PATRASCU</a>
- * @since $Revision$ (created: 11-07-24 6:46 PM)
- */
 public class EchoRack implements JRack {
     @Override public RackResponse call(Map<String, Object> environment) throws Exception {
     	String body = "";

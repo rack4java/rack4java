@@ -27,7 +27,22 @@ Checkout the JRack code and cd to that directory.
 
 The generated jar should be located here: dist/jrack-*.jar
 
-This is work in progress.
+This is work in progress:
+
+TODO
+----
+
+* Remove all dependencies
+* add tests for different cases (binary data, empty data, multiple headers, etc..)
+* update build script to ensure that examples and tests are not included in jrack.jar 
+* publish to a maven repo somewhere
+
+DONE
+----
+
+* Strip out servlet dependencies from JRack and examples
+* improve test coverage of existing examples
+* support easier header syntax 
 
 
 [1]: https://github.com/florinpatrascu/jrack

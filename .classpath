@@ -1,23 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="src" path="java/src"/>
-	<classpathentry kind="src" path="java/test"/>
-	<classpathentry kind="lib" path="bin/lib/jetty-6.1.21.jar"/>
-	<classpathentry kind="lib" path="bin/lib/jetty-util-6.1.21.jar"/>
-	<classpathentry kind="lib" path="bin/lib/junit-4.8.2.jar"/>
-	<classpathentry kind="lib" path="bin/lib/org.json.jar"/>
-	<classpathentry kind="lib" path="bin/lib/servlet-api-2.5.jar"/>
-	<classpathentry kind="lib" path="bin/lib/slf4j-api-1.5.8.jar"/>
-	<classpathentry kind="lib" path="bin/lib/slf4j-simple-1.5.8.jar"/>
-	<classpathentry kind="lib" path="bin/lib/snakeyaml-1.8.jar"/>
-	<classpathentry kind="lib" path="lib/jetty-6.1.21.jar"/>
-	<classpathentry kind="lib" path="lib/jetty-util-6.1.21.jar"/>
+	<classpathentry kind="src" path="src/main/java"/>
+	<classpathentry kind="src" path="src/examples/java"/>
+	<classpathentry kind="src" path="src/test/java"/>
 	<classpathentry kind="lib" path="lib/junit-4.8.2.jar"/>
-	<classpathentry kind="lib" path="lib/org.json.jar"/>
-	<classpathentry kind="lib" path="lib/servlet-api-2.5.jar"/>
-	<classpathentry kind="lib" path="lib/slf4j-api-1.5.8.jar"/>
-	<classpathentry kind="lib" path="lib/slf4j-simple-1.5.8.jar"/>
-	<classpathentry kind="lib" path="lib/snakeyaml-1.8.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="output" path="bin1"/>
+	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -9,13 +9,14 @@ public interface RackEnvironment {
     public static final String SERVER_PORT = "SERVER_PORT";
     
     public static final String HTTP_ = "HTTP_";
-    public static final String HTTP_USER_AGENT = HTTP_ + "USER_AGENT";
-    public static final String HTTP_HOST = HTTP_ + "HOST";
-    public static final String HTTP_CONNECTION = HTTP_ + "CONNECTION";
-    public static final String HTTP_ACCEPT = HTTP_ + "ACCEPT";
+    public static final String HTTP_USER_AGENT = HTTP_ + "User-Agent";
+    public static final String HTTP_HOST = HTTP_ + "Host";
+    public static final String HTTP_CONNECTION = HTTP_ + "Connection";
+    public static final String HTTP_ACCEPT = HTTP_ + "Accept";
     public static final String HTTP_ACCEPT_CHARSET = HTTP_ + "ACCEPT_CHARSET";
     public static final String HTTP_ACCEPT_ENCODING = HTTP_ + "ACCEPT_ENCODING";
 	public static final Object HTTP_CONTENT_LENGTH = HTTP_ + "Content-Length";
+	public static final Object HTTP_CONTENT_TYPE = HTTP_ + "Content-Type";
 
     public static final String RACK_VERSION = "rack.version";
     public static final String RACK_URL_SCHEME = "url_scheme";
