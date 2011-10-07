@@ -1,11 +1,11 @@
-package org.jrack.examples;
+package org.rack4java.examples;
 
 import java.io.InputStream;
 import java.util.Map;
 
-import org.jrack.Rack;
-import org.jrack.RackResponse;
-import org.jrack.utils.StreamHelper;
+import org.rack4java.Rack;
+import org.rack4java.RackResponse;
+import org.rack4java.utils.StreamHelper;
 
 public class Echo implements Rack {
     @Override public RackResponse call(Map<String, Object> environment) throws Exception {

@@ -44,7 +44,7 @@
  *For more information on EdenLib, please see <http://edenlib.sf.net/>.
  *
  */
-package org.jrack.utils;
+package org.rack4java.utils;
 
 @SuppressWarnings("rawtypes") 
 public class ClassHelper {

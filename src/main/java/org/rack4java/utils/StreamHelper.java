@@ -1,4 +1,4 @@
-package org.jrack.utils;
+package org.rack4java.utils;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;

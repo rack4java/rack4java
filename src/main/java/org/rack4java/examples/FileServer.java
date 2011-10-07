@@ -1,10 +1,10 @@
-package org.jrack.examples;
+package org.rack4java.examples;
 
 import java.io.File;
 import java.util.Map;
 
-import org.jrack.Rack;
-import org.jrack.RackResponse;
+import org.rack4java.Rack;
+import org.rack4java.RackResponse;
 
 public class FileServer implements Rack {
 

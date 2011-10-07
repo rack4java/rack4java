@@ -7,10 +7,10 @@ import java.util.Map;
 
 import junit.framework.TestCase;
 
-import org.jrack.Rack;
-import org.jrack.RackResponse;
-import org.jrack.examples.FileServer;
-import org.jrack.utils.StreamHelper;
+import org.rack4java.Rack;
+import org.rack4java.RackResponse;
+import org.rack4java.examples.FileServer;
+import org.rack4java.utils.StreamHelper;
 
 public class ExampleTest extends TestCase {
 	

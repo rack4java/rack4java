@@ -1,4 +1,4 @@
-package org.jrack;
+package org.rack4java;
 
 import java.util.Map;
 

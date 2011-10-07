@@ -1,5 +1,2 @@
-*.iml
-*.ipr
-*.iws
 bin/*
-bin1/*
+build/*

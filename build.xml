@@ -16,7 +16,7 @@
   ~ limitations under the License.
   -->
 
-<project name="JRack" default="jar">
+<project name="rack4java" default="jar">
     <property environment="env"/>
 
     <property file="build.properties"/>

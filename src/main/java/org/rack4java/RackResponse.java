@@ -1,4 +1,4 @@
-package org.jrack;
+package org.rack4java;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -6,8 +6,8 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.Map;
 
-import org.jrack.utils.LiteralMap;
-import org.jrack.utils.StreamHelper;
+import org.rack4java.utils.LiteralMap;
+import org.rack4java.utils.StreamHelper;
 
 public class RackResponse {
     private final int status;
