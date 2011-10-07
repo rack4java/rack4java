@@ -11,7 +11,7 @@ import org.jrack.utils.ReaderUtils;
 public class Echo implements JRack {
     @Override public RackResponse call(Map<String, Object> environment) throws Exception {
     	RackResponse ret = new RackResponse(200, 
-    			ReaderUtils.read((InputStream) environment.get(RackEnvironment.RACK_INPUT)));
+    			ReaderUtils.readAsString((InputStream) environment.get(RackEnvironment.RACK_INPUT)));
     	
         String type = (String) environment.get(RackEnvironment.HTTP_ + "Content-Type");
         if (null != type) {
