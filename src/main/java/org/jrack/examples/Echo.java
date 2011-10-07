@@ -3,17 +3,16 @@ package org.jrack.examples;
 import java.io.InputStream;
 import java.util.Map;
 
-import org.jrack.JRack;
-import org.jrack.RackEnvironment;
+import org.jrack.Rack;
 import org.jrack.RackResponse;
-import org.jrack.utils.ReaderUtils;
+import org.jrack.utils.StreamHelper;
 
-public class Echo implements JRack {
+public class Echo implements Rack {
     @Override public RackResponse call(Map<String, Object> environment) throws Exception {
     	RackResponse ret = new RackResponse(200, 
-    			ReaderUtils.readAsString((InputStream) environment.get(RackEnvironment.RACK_INPUT)));
+    			StreamHelper.readAsString((InputStream) environment.get(Rack.RACK_INPUT)));
     	
-        String type = (String) environment.get(RackEnvironment.HTTP_ + "Content-Type");
+        String type = (String) environment.get(Rack.HTTP_ + "Content-Type");
         if (null != type) {
         	ret.addHeader("Content-Type", type);
         }

@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
 
-public class ReaderUtils {
+public class StreamHelper {
 
 	private static final int BUFFER_SIZE = 4096;
 

@@ -47,7 +47,7 @@
 package org.jrack.utils;
 
 @SuppressWarnings("rawtypes") 
-public class ClassUtilities {
+public class ClassHelper {
 
     public static Class loadClass(String className) throws ClassNotFoundException {
         ClassLoader cl = Thread.currentThread().getContextClassLoader();
@@ -59,7 +59,7 @@ public class ClassUtilities {
 			System.err.println(className + "ERROR: SecurityException for class [" + className + "] using thread context class loader");
 		}
 
-		cl = ClassUtilities.class.getClassLoader();
+		cl = ClassHelper.class.getClassLoader();
 	    return cl.loadClass(className);
     }
 }

@@ -3,11 +3,10 @@ package org.jrack.examples;
 import java.io.File;
 import java.util.Map;
 
-import org.jrack.JRack;
-import org.jrack.RackEnvironment;
+import org.jrack.Rack;
 import org.jrack.RackResponse;
 
-public class FileServer implements JRack {
+public class FileServer implements Rack {
 
 	private File root;
 
@@ -16,12 +15,12 @@ public class FileServer implements JRack {
 	}
 
 	@Override public RackResponse call(Map<String, Object> environment) throws Exception {
-		String filename = (String) environment.get(RackEnvironment.PATH_INFO);
+		String filename = (String) environment.get(Rack.PATH_INFO);
 		File file = new File(root, filename);
 		if (file.canRead()) {
-			return new RackResponse(200, file, "Content-Type", "text/html");
+			return new RackResponse(200, file);
 		}
-		return new RackResponse(404, "File [" + filename + "] not found");
+		return new RackResponse(404, "File [" + filename + "] not found", "Content-Type", "text/plain");
 	}
 
 }

@@ -7,7 +7,7 @@ import java.nio.charset.Charset;
 import java.util.Map;
 
 import org.jrack.utils.LiteralMap;
-import org.jrack.utils.ReaderUtils;
+import org.jrack.utils.StreamHelper;
 
 public class RackResponse {
     private final int status;
@@ -15,6 +15,7 @@ public class RackResponse {
     private final Charset charset;
     private final Map<String, String> headers;
 
+    // preserved but autoconverted if required
     private byte[] bytes;
     private String string;
 
@@ -31,6 +32,10 @@ public class RackResponse {
     	this(status, bytes, null, null, null, headers);
     }
 
+    public RackResponse(int status, byte[] bytes, Charset charset, Map<String, String> headers) {
+    	this(status, bytes, null, null, charset, headers);
+    }
+
     public RackResponse(int status, File file, Map<String, String> headers) {
     	this(status, null, null, file, null, headers);
     }
@@ -43,31 +48,31 @@ public class RackResponse {
     	this(status, null, string, null, null, headers);
     }
 
-    public RackResponse(int status, String string, Charset charset, Map<String, String> headers) {
-    	this(status, null, string, null, charset, headers);
-    }
-
     public RackResponse(int status, byte[] bytes, String... headers) {
     	this(status, bytes, new LiteralMap<String,String>((Object[])headers));
+    }
+
+    public RackResponse(int status, byte[] bytes, Charset charset, String... headers) {
+    	this(status, bytes, charset, new LiteralMap<String,String>((Object[])headers));
     }
 
     public RackResponse(int status, File file, String... headers) {
     	this(status, file, new LiteralMap<String,String>((Object[])headers));
     }
 
-    public RackResponse(int status, String string, String... headers) {
-        this(status, string, new LiteralMap<String,String>((Object[])headers));
+    public RackResponse(int status, File file, Charset charset, String... headers) {
+    	this(status, file, charset, new LiteralMap<String,String>((Object[])headers));
     }
 
-    public RackResponse(int status, String string, Charset charset, String... headers) {
-        this(status, string, charset, new LiteralMap<String,String>((Object[])headers));
+    public RackResponse(int status, String string, String... headers) {
+        this(status, string, new LiteralMap<String,String>((Object[])headers));
     }
 
     public byte[] getBytes() throws IOException {
     	if (null != bytes) return bytes;
     	
     	if (null != file) {
-    		bytes = ReaderUtils.readAsBytes(new FileInputStream(file));
+    		bytes = StreamHelper.readAsBytes(new FileInputStream(file));
     	} else if (null != charset) {
     		bytes = string.getBytes(charset);
     	} else {
@@ -81,9 +86,9 @@ public class RackResponse {
     	
     	if (null != file) {
     		if (null != charset) {
-        		string = ReaderUtils.readAsString(new FileInputStream(file), charset);
+        		string = StreamHelper.readAsString(new FileInputStream(file), charset);
     		} else {
-        		string = ReaderUtils.readAsString(new FileInputStream(file));
+        		string = StreamHelper.readAsString(new FileInputStream(file));
     		}
     	} else if (null != charset) {
     		string = new String(bytes, charset);
