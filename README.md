@@ -22,20 +22,19 @@ I have added [An example of this][5] to GitHub.
 
 A Rack4Java application can be very simple. For example:
 
-  package org.rack4java.examples;
+    package org.rack4java.examples;
 
-  import java.util.Map;
+    import java.util.Map;
+    import org.rack4java.Rack;
+    import org.rack4java.RackResponse;
 
-  import org.rack4java.Rack;
-  import org.rack4java.RackResponse;
-
-  public class HelloWorld implements Rack {
-    public RackResponse call(Map<String, Object> input) {
-        return new RackResponse(200, 
+    public class HelloWorld implements Rack {
+        public RackResponse call(Map<String, Object> input) {
+            return new RackResponse(200, 
         		"Hello World", 
         		"Content-Type", "text/plain");
+        }
     }
-  }
   
 When plugged in to a Rack4Java friendly server, this will respond with the usual greeting to any request
 
