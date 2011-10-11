@@ -53,8 +53,15 @@
         <copy file="LICENSE.txt" todir="dist" overwrite="true"/>
     </target>
 
+    <target name="src">
+        <mkdir dir="dist"/>
+        <jar jarfile="dist/${ant.project.name}-${version}-src.jar" basedir="." excludes="bin/**,.git/**,build/**,dist/**" />
+    </target>
+
     <target name="clean">
+        <mkdir dir="dist"/>
         <delete dir="dist" includes="*.jar"/>
+        <mkdir dir="build"/>
         <delete dir="build" includes="*/*.class"/>
     </target>
 
