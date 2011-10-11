@@ -55,7 +55,7 @@
 
     <target name="src">
         <mkdir dir="dist"/>
-        <jar jarfile="dist/${ant.project.name}-${version}-src.jar" basedir="." excludes="bin/**,.git/**,build/**,dist/**" />
+        <jar jarfile="dist/${ant.project.name}-${version}-sources.jar" basedir="." excludes="bin/**,.git/**,build/**,dist/**" />
     </target>
 
     <target name="clean">
