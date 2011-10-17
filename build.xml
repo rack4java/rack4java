@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <project name="rack4java" default="jar">
+	<property name="group" value="org.rack4java"/>
 	<property name="version" value="0.9"/>
 	
     <path id="classpath">
@@ -48,14 +49,12 @@
 	</target>
 
     <target name="jar" depends="test">
-        <mkdir dir="dist"/>
-        <jar jarfile="dist/${ant.project.name}-${version}.jar" basedir="build/main"/>
-        <copy file="LICENSE.txt" todir="dist" overwrite="true"/>
-    </target>
-
-    <target name="src">
-        <mkdir dir="dist"/>
-        <jar jarfile="dist/${ant.project.name}-${version}-sources.jar" basedir="." excludes="bin/**,.git/**,build/**,dist/**" />
+       <mkdir dir="dist"/>
+       <jar jarfile="dist/${group}.${ant.project.name}-${version}.jar" basedir="build/main">
+           <fileset file="LICENSE.txt"/>
+       </jar>
+       <jar jarfile="dist/${group}.${ant.project.name}-${version}-sources.jar" basedir="." excludes="bin/**,.git/**,build/**,dist/**" />
+       <copy file="LICENSE.txt" todir="dist" overwrite="true"/>
     </target>
 
     <target name="clean">
