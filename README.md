@@ -41,8 +41,9 @@ When plugged in to a Rack4Java friendly server, this will respond with the usual
 # Associated Projects
 
 * Many thanks to Anthony Eden for the original [JRack][4].
-* Many thanks to Florin Patrascu who forked JRack, set up [a git repo][5] and kept the idea alive. 
-* An in-progress example of a [Rack4Java wrapper for the Jetty web server, using the Servlet API][6].
+* Many thanks to Florin Patrascu who forked JRack, set up [a git repo][5] and kept the idea alive.
+* [tools for routing requests to Rack applications][7] 
+* An in-progress example of a [Rack4Java wrapper for the Servlet API with an example using the Jetty web server][6].
 
 # Building
 
@@ -50,7 +51,7 @@ To build Rack4Java you will need a java compiler and Ant.
 
 Checkout the Rack4Java code and cd to that directory.
 
-    git clone git@github.com:efficacy/rack4java.git
+    git clone git@github.com:rack4java/rack4java.git
     cd rack4java
     ant
 
@@ -60,6 +61,7 @@ TODO
 ----
 
 * add tests for different cases (empty data, multiple headers, etc..)
+* add javadoc and generate doc pages
 * publish to a maven repo somewhere
 
 DONE
@@ -77,5 +79,6 @@ DONE
 [3]: http://www.oracle.com/technetwork/java/javaee/servlet/index.html
 [4]: https://sourceforge.net/projects/approvaltests/files/
 [5]: https://github.com/florinpatrascu/jrack
-[6]: https://github.com/efficacy/jrack-jetty
+[6]: https://github.com/rack4java/rack4java-servlet
+[6]: https://github.com/rack4java/rack4java-router
 
