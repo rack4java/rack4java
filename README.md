@@ -42,7 +42,7 @@ When plugged in to a Rack4Java friendly server, this will respond with the usual
 
 * Many thanks to Anthony Eden for the original [JRack][4].
 * Many thanks to Florin Patrascu who forked JRack, set up [a git repo][5] and kept the idea alive.
-* [tools for routing requests to Rack applications][7] 
+* Some [tools for routing requests to Rack applications][7] 
 * An in-progress example of a [Rack4Java wrapper for the Servlet API with an example using the Jetty web server][6].
 
 # Building
