@@ -2,6 +2,25 @@ package org.rack4java;
 
 import java.util.Map;
 
+/**
+ * The interface implemented by all Rack4java applications
+ * 
+ * <p>This interface is deliberately minimal so that it is very simple to implement.</p> 
+ * 
+ * <p>An example of a "Hello World" Rack application might be:
+ * <pre>
+ *  public class HelloWorld implements Rack {
+ *  public RackResponse call(Map<String, Object> input) {
+ *      return new RackResponse(200, 
+ *              "Hello World", 
+ *              "Content-Type", "text/plain");
+ *      }
+ *  }
+ * </pre></p>
+ * 
+ *  @see org.rack4java.RackResponse
+ *  @author Frank Carver
+ */
 public interface Rack {
     public static final String REQUEST_METHOD = "REQUEST_METHOD";
 	public static final String SCRIPT_NAME = "SCRIPT_NAME";
@@ -28,5 +47,13 @@ public interface Rack {
 	public static final String RACK_MULTIPROCESS = "rack.multiprocess";
 	public static final String RACK_RUN_ONCE = "rack.run_once";
 
+	/**
+	 * The single method implemented by all Rack applications
+	 * 
+	 * @param environment a map of named values combining both the server environment and the HTTP request
+	 * @return a RackResponse object with status code, headers and either a String, byte[] or File payload
+	 * 
+	 * 
+	 */
 	RackResponse call(Map<String, Object> environment) throws Exception;
 }

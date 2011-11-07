@@ -47,13 +47,37 @@
 			</batchtest>
 	    </junit>
 	</target>
+	
+	<target name="doc">
+	    <javadoc
+	           destdir="docs/api"
+	           author="true"
+	           version="true"
+	           use="true"
+	           windowtitle="Test API">
 
-    <target name="jar" depends="test">
+	    <fileset dir="src/main/java" defaultexcludes="yes">
+	      <include name="org/rack4java/**"/>
+	      <exclude name="test/**"/>
+	    </fileset>
+
+	    <doctitle><![CDATA[<h1>Rack4Java</h1>]]></doctitle>
+	    <bottom><![CDATA[<i>Released under an Apache Licence</i>]]></bottom>
+	    <group title="Rack4Java main classes" packages="org.rack4java"/>
+	    <group title="Rack4Java helper classes" packages="org.rack4java.utils"/>
+	    <group title="Rack4Java examples" packages="org.rack4java.examples"/>
+	    <link offline="true" href="http://download.oracle.com/javase/6/docs/api/" packagelistLoc="C:\tmp"/>
+	    <link href="http://developer.java.sun.com/developer/products/xml/docs/api/"/>
+	  </javadoc>
+	</target>
+
+    <target name="jar" depends="test,doc">
        <mkdir dir="dist"/>
        <jar jarfile="dist/${group}.${ant.project.name}-${version}.jar" basedir="build/main">
            <fileset file="LICENSE.txt"/>
        </jar>
        <jar jarfile="dist/${group}.${ant.project.name}-${version}-sources.jar" basedir="." excludes="bin/**,.git/**,build/**,dist/**" />
+       <jar jarfile="dist/${group}.${ant.project.name}-${version}-javadoc.jar" basedir="docs/api" />
        <copy file="LICENSE.txt" todir="dist" overwrite="true"/>
     </target>
 	
