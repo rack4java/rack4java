@@ -7,7 +7,7 @@ import java.util.Map;
  * 
  * <p>This interface is deliberately minimal so that it is very simple to implement.</p> 
  * 
- * <p>An example of a "Hello World" Rack application might be:
+ * <p>An example of a "Hello World" Rack4java application might be:
  * <pre>
  * public class HelloWorld implements Rack {
  *     public RackResponse call(Map<String, Object> input) {
@@ -17,6 +17,18 @@ import java.util.Map;
  *     }
  * }
  * </pre></p>
+ * 
+ * <p>For more examples, see <i><a href="http://github.com/rack4java/rack4java-examples/">The Rack4Java-Examples project</a></i></p>
+ * 
+ * <p>A Rack4Java application just needs to implement a single method "call". 
+ * This method will be invoked for every incoming request, passing in a map of named values representing
+ * the details of the request. The may will also probably contain other values representing the context
+ * of the request. As far as possible, Rack4Java uses the same names for these parameters as 
+ * <a href="http://rack.rubyforge.org/doc/SPEC.html">the original Ruby Rack project</a>.</p>
+ * 
+ * <p>The return value from the "call" method is a {@link RackResponse} object. RackResponse provides a 
+ * variety of constructors for different types of page body (String, byte[], file) and different 
+ * combinations of headers. They are all interchangeable   
  * 
  *  @see org.rack4java.RackResponse
  *  @author Frank Carver
@@ -48,11 +60,10 @@ public interface Rack {
 	public static final String RACK_RUN_ONCE = "rack.run_once";
 
 	/**
-	 * The single method implemented by all Rack applications
+	 * The single method implemented by all Rack4Java applications
 	 * 
-	 * @param environment a map of named values combining both the server environment and the HTTP request
-	 * @return a RackResponse object with status code, headers and either a String, byte[] or File payload
-	 * 
+	 * @param environment a map of named values combining both the server environment and the HTTP request.
+	 * @return a RackResponse object with status code, headers and either a String, byte[] or File payload.
 	 * 
 	 */
 	RackResponse call(Map<String, Object> environment) throws Exception;
