@@ -9,13 +9,13 @@ import java.util.Map;
  * 
  * <p>An example of a "Hello World" Rack application might be:
  * <pre>
- *  public class HelloWorld implements Rack {
- *  public RackResponse call(Map<String, Object> input) {
- *      return new RackResponse(200, 
+ * public class HelloWorld implements Rack {
+ *     public RackResponse call(Map<String, Object> input) {
+ *         return new RackResponse(200, 
  *              "Hello World", 
  *              "Content-Type", "text/plain");
- *      }
- *  }
+ *     }
+ * }
  * </pre></p>
  * 
  *  @see org.rack4java.RackResponse
