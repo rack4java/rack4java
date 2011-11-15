@@ -1,6 +1,5 @@
 package org.rack4java;
 
-import java.util.Map;
 
 /**
  * The interface implemented by all Rack4java applications
@@ -62,9 +61,9 @@ public interface Rack {
 	/**
 	 * The single method implemented by all Rack4Java applications
 	 * 
-	 * @param environment a map of named values combining both the server environment and the HTTP request.
+	 * @param environment a lightweight "map" of named values combining both the server environment and the HTTP request.
 	 * @return a RackResponse object with status code, headers and either a String, byte[] or File payload.
 	 * 
 	 */
-	RackResponse call(Map<String, Object> environment) throws Exception;
+	RackResponse call(Context<Object> environment) throws Exception;
 }

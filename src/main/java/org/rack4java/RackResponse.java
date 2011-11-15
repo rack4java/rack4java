@@ -4,22 +4,21 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.charset.Charset;
-import java.util.Map;
 
-import org.rack4java.utils.LiteralMap;
+import org.rack4java.context.LiteralContext;
 import org.rack4java.utils.StreamHelper;
 
 public class RackResponse {
     private final int status;
-    private final File file;
-    private final Charset charset;
-    private final Map<String, String> headers;
+    private final Context<String> headers;
 
-    // preserved but autoconverted if required
+    // preserved but auto-converted if required
+    private final Charset charset;
     private byte[] bytes;
     private String string;
+    private final File file;
 
-    public RackResponse(int status, byte[] response, String string, File file, Charset charset, Map<String, String> headers) {
+    public RackResponse(int status, byte[] response, String string, File file, Charset charset, Context<String> headers) {
         this.status = status;
         this.bytes = response;
         this.string = string;
@@ -28,44 +27,44 @@ public class RackResponse {
         this.headers = headers;
     }
 
-    public RackResponse(int status, byte[] bytes, Map<String, String> headers) {
+    public RackResponse(int status, byte[] bytes, Context<String> headers) {
     	this(status, bytes, null, null, null, headers);
     }
 
-    public RackResponse(int status, byte[] bytes, Charset charset, Map<String, String> headers) {
+    public RackResponse(int status, byte[] bytes, Charset charset, Context<String> headers) {
     	this(status, bytes, null, null, charset, headers);
     }
 
-    public RackResponse(int status, File file, Map<String, String> headers) {
+    public RackResponse(int status, File file, Context<String> headers) {
     	this(status, null, null, file, null, headers);
     }
 
-    public RackResponse(int status, File file, Charset charset, Map<String, String> headers) {
+    public RackResponse(int status, File file, Charset charset, Context<String> headers) {
     	this(status, null, null, file, null, headers);
     }
 
-    public RackResponse(int status, String string, Map<String, String> headers) {
+    public RackResponse(int status, String string, Context<String> headers) {
     	this(status, null, string, null, null, headers);
     }
 
     public RackResponse(int status, byte[] bytes, String... headers) {
-    	this(status, bytes, new LiteralMap<String,String>((Object[])headers));
+    	this(status, bytes, new LiteralContext<String>((Object[])headers));
     }
 
     public RackResponse(int status, byte[] bytes, Charset charset, String... headers) {
-    	this(status, bytes, charset, new LiteralMap<String,String>((Object[])headers));
+    	this(status, bytes, charset, new LiteralContext<String>((Object[])headers));
     }
 
     public RackResponse(int status, File file, String... headers) {
-    	this(status, file, new LiteralMap<String,String>((Object[])headers));
+    	this(status, file, new LiteralContext<String>((Object[])headers));
     }
 
     public RackResponse(int status, File file, Charset charset, String... headers) {
-    	this(status, file, charset, new LiteralMap<String,String>((Object[])headers));
+    	this(status, file, charset, new LiteralContext<String>((Object[])headers));
     }
 
     public RackResponse(int status, String string, String... headers) {
-        this(status, string, new LiteralMap<String,String>((Object[])headers));
+        this(status, string, new LiteralContext<String>((Object[])headers));
     }
 
     public byte[] getBytes() throws IOException {
@@ -103,7 +102,7 @@ public class RackResponse {
     	return file;
     }
 
-    public Map<String, String> getHeaders() {
+    public Context<String> getHeaders() {
         return headers;
     }
 
