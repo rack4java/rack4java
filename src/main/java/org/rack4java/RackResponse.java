@@ -12,9 +12,9 @@ import org.rack4java.utils.StreamHelper;
 
 public class RackResponse {
     private final int status;
-    private Context<String> headers;
+    private final Context<String> headers;
 
-    // preserved but auto-converted if required
+    // preserved if supplied, but auto-converted where required
     private Charset charset;
     private byte[] bytes;
     private String string;

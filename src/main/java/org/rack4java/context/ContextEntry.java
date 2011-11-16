@@ -3,12 +3,16 @@ package org.rack4java.context;
 import java.util.Map;
 
 class ContextEntry<T> implements Map.Entry<String, T> {
-	private String key;
+	private final String key;
 	private T value;
 
 	public ContextEntry(String key, T value) {
 		this.key = key;
 		this.value = value;
+	}
+
+	public ContextEntry(Map.Entry<String, T> entry) {
+		this(entry.getKey(), entry.getValue());
 	}
 
 	@Override public String getKey() {
