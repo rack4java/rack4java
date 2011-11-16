@@ -4,67 +4,74 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.util.Map;
 
 import org.rack4java.context.LiteralContext;
+import org.rack4java.context.MapContext;
 import org.rack4java.utils.StreamHelper;
 
 public class RackResponse {
     private final int status;
-    private final Context<String> headers;
+    private Context<String> headers;
 
     // preserved but auto-converted if required
-    private final Charset charset;
+    private Charset charset;
     private byte[] bytes;
     private String string;
-    private final File file;
-
-    public RackResponse(int status, byte[] response, String string, File file, Charset charset, Context<String> headers) {
-        this.status = status;
-        this.bytes = response;
-        this.string = string;
-        this.file = file;
-        this.charset = charset;
-        this.headers = headers;
+    private File file;
+    
+    public RackResponse(int status) {
+    	this.status = status;
+    	this.headers = new MapContext<String>();
     }
-
-    public RackResponse(int status, byte[] bytes, Context<String> headers) {
-    	this(status, bytes, null, null, null, headers);
+    
+    public RackResponse withHeader(String key, String value) {
+    	headers.put(key, value);
+    	return this;
     }
-
-    public RackResponse(int status, byte[] bytes, Charset charset, Context<String> headers) {
-    	this(status, bytes, null, null, charset, headers);
+    
+    public RackResponse withHeaders(Context<String> headers) {
+    	for (Map.Entry<String, String> entry : headers) {
+        	headers.put(entry.getKey(), entry.getValue());
+    	}
+    	return this;
     }
-
-    public RackResponse(int status, File file, Context<String> headers) {
-    	this(status, null, null, file, null, headers);
+    
+    public RackResponse withHeaders(String... headers) {
+    	return withHeaders(new LiteralContext<String>((Object[])headers));
     }
-
-    public RackResponse(int status, File file, Charset charset, Context<String> headers) {
-    	this(status, null, null, file, null, headers);
+    
+    public RackResponse withBody(String string) {
+    	this.string = string;
+    	return this;
     }
-
-    public RackResponse(int status, String string, Context<String> headers) {
-    	this(status, null, string, null, null, headers);
+    
+    public RackResponse withBody(String string, Charset charset) {
+    	this.string = string;
+    	this.charset = charset;
+    	return this;
     }
-
-    public RackResponse(int status, byte[] bytes, String... headers) {
-    	this(status, bytes, new LiteralContext<String>((Object[])headers));
+    
+    public RackResponse withBody(File file) {
+    	this.file = file;
+    	return this;
     }
-
-    public RackResponse(int status, byte[] bytes, Charset charset, String... headers) {
-    	this(status, bytes, charset, new LiteralContext<String>((Object[])headers));
+    
+    public RackResponse withBody(File file, Charset charset) {
+    	this.file = file;
+    	this.charset = charset;
+    	return this;
     }
-
-    public RackResponse(int status, File file, String... headers) {
-    	this(status, file, new LiteralContext<String>((Object[])headers));
+    
+    public RackResponse withBody(byte[] bytes) {
+    	this.bytes = bytes;
+    	return this;
     }
-
-    public RackResponse(int status, File file, Charset charset, String... headers) {
-    	this(status, file, charset, new LiteralContext<String>((Object[])headers));
-    }
-
-    public RackResponse(int status, String string, String... headers) {
-        this(status, string, new LiteralContext<String>((Object[])headers));
+    
+    public RackResponse withBody(byte[] bytes, Charset charset) {
+    	this.bytes = bytes;
+    	this.charset = charset;
+    	return this;
     }
 
     public byte[] getBytes() throws IOException {
@@ -74,10 +81,10 @@ public class RackResponse {
     		bytes = StreamHelper.readAsBytes(new FileInputStream(file));
     	} else if (null != charset) {
     		bytes = string.getBytes(charset);
-    	} else {
+    	} else if (null != string) {
     		bytes = string.getBytes();
     	}
-        return bytes;
+        return bytes != null ? bytes : new byte[0];
     }
 
     public String getString() throws IOException {
@@ -91,11 +98,11 @@ public class RackResponse {
     		}
     	} else if (null != charset) {
     		string = new String(bytes, charset);
-    	} else {
+    	} else if (null != bytes) {
     		string = new String(bytes);
     	}
     	
-    	return string;
+    	return string != null ? string : "";
     }
     
     public File getFile() {
