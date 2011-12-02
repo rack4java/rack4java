@@ -9,14 +9,15 @@ public class StreamHelper {
 
 	private static final int BUFFER_SIZE = 4096;
 
-	public static byte[] readAsBytes(InputStream in) throws IOException {
+	public static byte[] readAsBytes(InputStream in, long maxSize) throws IOException {
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		try {
 			int byteCount = 0;
-			byte[] buffer = new byte[BUFFER_SIZE];
-			int bytesRead;
+			int size = (int)Math.min(BUFFER_SIZE, maxSize);
+			byte[] buffer = new byte[size];
+			int bytesRead = 0;
 
-			while ((bytesRead = in.read(buffer)) != -1) {
+			while ((byteCount < maxSize) && (bytesRead = in.read(buffer)) != -1) {
 				out.write(buffer, 0, bytesRead);
 				byteCount += bytesRead;
 			}
@@ -30,6 +31,10 @@ public class StreamHelper {
 				out.close();
 			} catch (IOException ex) {}
 		}
+	}
+
+	public static byte[] readAsBytes(InputStream in) throws IOException {
+		return readAsBytes(in, Long.MAX_VALUE);
 	}
 
 	public static String readAsString(InputStream in) throws IOException {

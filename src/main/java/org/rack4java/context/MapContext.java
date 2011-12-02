@@ -21,8 +21,9 @@ public class MapContext<T> implements Context<T> {
 		return map.get(key);
 	}
 
-	@Override public void put(String key, T value) {
+	@Override public Context<T> with(String key, T value) {
 		map.put(key, value);
+		return this;
 	}
 
 	public Map<String, T> getMap() {

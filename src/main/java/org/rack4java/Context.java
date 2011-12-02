@@ -11,6 +11,6 @@ import java.util.Map;
  */
 public interface Context<T> extends Iterable<Map.Entry<String,T>> {
 	T get(String key);
-	void put(String key, T value);
+	Context<T> with(String key, T value);
 	T remove(String key);
 }

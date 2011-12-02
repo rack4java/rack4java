@@ -1,12 +1,14 @@
 package org.rack4java;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.util.Map;
 
-import org.rack4java.context.LiteralContext;
 import org.rack4java.context.MapContext;
 import org.rack4java.utils.StreamHelper;
 
@@ -15,9 +17,8 @@ public class RackResponse {
     private final Context<String> headers;
 
     // preserved if supplied, but auto-converted where required
-    private Charset charset;
-    private byte[] bytes;
-    private String string;
+    private InputStream stream;
+    private long length = Long.MAX_VALUE;
     private File file;
     
     public RackResponse(int status) {
@@ -26,98 +27,72 @@ public class RackResponse {
     }
     
     public RackResponse withHeader(String key, String value) {
-    	headers.put(key, value);
+    	headers.with(key, value);
     	return this;
     }
     
     public RackResponse withHeaders(Context<String> headers) {
     	for (Map.Entry<String, String> entry : headers) {
-        	headers.put(entry.getKey(), entry.getValue());
+        	headers.with(entry.getKey(), entry.getValue());
     	}
     	return this;
     }
     
-    public RackResponse withHeaders(String... headers) {
-    	return withHeaders(new LiteralContext<String>((Object[])headers));
-    }
     
-    public RackResponse withBody(String string) {
-    	this.string = string;
+    public RackResponse withBody(InputStream stream, long length) {
+    	this.stream = stream;
+    	withContentLength(length);
     	return this;
+    }
+
+	public RackResponse withContentLength(long length) {
+		this.length = length;
+		return withHeader("Content-Length", Long.toString(length));
+	}
+
+	public RackResponse withContentType(String type) {
+		return withHeader("Content-Type", type);
+	}
+    
+    public RackResponse withBody(byte[] bytes) {
+    	return withBody(new ByteArrayInputStream(bytes), bytes.length);
     }
     
     public RackResponse withBody(String string, Charset charset) {
-    	this.string = string;
-    	this.charset = charset;
-    	return this;
+    	return withBody(string.getBytes(charset));
     }
     
-    public RackResponse withBody(File file) {
+    public RackResponse withBody(String string) {
+    	return withBody(string.getBytes());
+    }
+    
+    public RackResponse withBody(File file) throws FileNotFoundException {
     	this.file = file;
+    	withBody(new FileInputStream(file), file.length());
     	return this;
-    }
-    
-    public RackResponse withBody(File file, Charset charset) {
-    	this.file = file;
-    	this.charset = charset;
-    	return this;
-    }
-    
-    public RackResponse withBody(byte[] bytes) {
-    	this.bytes = bytes;
-    	return this;
-    }
-    
-    public RackResponse withBody(byte[] bytes, Charset charset) {
-    	this.bytes = bytes;
-    	this.charset = charset;
-    	return this;
-    }
-
-    public byte[] getBytes() throws IOException {
-    	if (null != bytes) return bytes;
-    	
-    	if (null != file) {
-    		bytes = StreamHelper.readAsBytes(new FileInputStream(file));
-    	} else if (null != charset) {
-    		bytes = string.getBytes(charset);
-    	} else if (null != string) {
-    		bytes = string.getBytes();
-    	}
-        return bytes != null ? bytes : new byte[0];
-    }
-
-    public String getString() throws IOException {
-    	if (null != string) return string;
-    	
-    	if (null != file) {
-    		if (null != charset) {
-        		string = StreamHelper.readAsString(new FileInputStream(file), charset);
-    		} else {
-        		string = StreamHelper.readAsString(new FileInputStream(file));
-    		}
-    	} else if (null != charset) {
-    		string = new String(bytes, charset);
-    	} else if (null != bytes) {
-    		string = new String(bytes);
-    	}
-    	
-    	return string != null ? string : "";
-    }
-    
-    public File getFile() {
-    	return file;
-    }
-
-    public Context<String> getHeaders() {
-        return headers;
     }
 
     public int getStatus() {
         return status;
     }
+
+    public Context<String> getHeaders() {
+        return headers;
+    }
     
-    public void addHeader(String key, String value) {
-    	headers.put(key, value);
+    public long getBodyLength() {
+    	return length;
+    }
+    
+    public File getFileBody() {
+    	return file;
+    }
+
+    public InputStream getStreamBody() {
+    	return stream;
+    }
+    
+    public byte[] getBodyAsBytes() throws IOException {
+    	return StreamHelper.readAsBytes(stream, (int)length);
     }
 }
