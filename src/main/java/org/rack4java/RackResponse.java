@@ -13,13 +13,16 @@ import org.rack4java.context.MapContext;
 import org.rack4java.utils.StreamHelper;
 
 public class RackResponse {
+	public enum Type { file, stream };
+	
     private final int status;
     private final Context<String> headers;
 
     // preserved if supplied, but auto-converted where required
+    private File file;
+
     private InputStream stream;
     private long length = Long.MAX_VALUE;
-    private File file;
     
     public RackResponse(int status) {
     	this.status = status;
@@ -37,7 +40,6 @@ public class RackResponse {
     	}
     	return this;
     }
-    
     
     public RackResponse withBody(InputStream stream, long length) {
     	this.stream = stream;
@@ -82,6 +84,10 @@ public class RackResponse {
     
     public long getBodyLength() {
     	return length;
+    }
+    
+    public Type getResponseType() {
+    	return (null != file) ? Type.file : Type.stream; 
     }
     
     public File getFileBody() {
