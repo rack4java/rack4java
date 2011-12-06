@@ -47,8 +47,8 @@ public interface Rack {
 	public static final String HTTP_ACCEPT = HTTP_ + "Accept";
 	public static final String HTTP_ACCEPT_CHARSET = HTTP_ + "Accept-Charset";
 	public static final String HTTP_ACCEPT_ENCODING = HTTP_ + "Accept-Encoding";
-	public static final Object HTTP_CONTENT_LENGTH = HTTP_ + "Content-Length";
-	public static final Object HTTP_CONTENT_TYPE = HTTP_ + "Content-Type";
+	public static final String HTTP_CONTENT_LENGTH = HTTP_ + "Content-Length";
+	public static final String HTTP_CONTENT_TYPE = HTTP_ + "Content-Type";
 	
 	public static final String RACK_VERSION = "rack.version";
 	public static final String RACK_URL_SCHEME = "url_scheme";
