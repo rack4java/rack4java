@@ -43,7 +43,7 @@ public class RackResponse {
     
     public RackResponse withBody(InputStream stream, long length) {
     	this.stream = stream;
-    	withContentLength(length);
+    	if (length > 0) withContentLength(length);
     	return this;
     }
 
@@ -100,5 +100,9 @@ public class RackResponse {
     
     public byte[] getBodyAsBytes() throws IOException {
     	return StreamHelper.readAsBytes(stream, (int)length);
+    }
+    
+    public String toString() {
+    	return "RackResponse[status=" + status + " type=" + getResponseType() + " headers=" + headers + "]";
     }
 }
