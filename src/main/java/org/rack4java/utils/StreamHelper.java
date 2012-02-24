@@ -18,8 +18,7 @@ public class StreamHelper {
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		try {
 			int byteCount = 0;
-			int size = (int)Math.min(BUFFER_SIZE, maxSize);
-			byte[] buffer = new byte[size];
+			byte[] buffer = new byte[BUFFER_SIZE];
 			int bytesRead = 0;
 
 			while ((byteCount < maxSize) && (bytesRead = in.read(buffer)) != -1) {
@@ -30,10 +29,10 @@ public class StreamHelper {
 			return out.toByteArray();
 		} finally {
 			try {
-				in.close();
+				if (null != in) in.close();
 			} catch (IOException ex) {}
 			try {
-				out.close();
+				if (null != out) out.close();
 			} catch (IOException ex) {}
 		}
 	}
