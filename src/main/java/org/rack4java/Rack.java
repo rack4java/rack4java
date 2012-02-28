@@ -39,7 +39,10 @@ public interface Rack {
 	public static final String QUERY_STRING = "QUERY_STRING";
 	public static final String SERVER_NAME = "SERVER_NAME";
 	public static final String SERVER_PORT = "SERVER_PORT";
-	
+
+	public static final String RESPONSE_STATUS = "RESPONSE_STATUS";
+	public static final String RESPONSE_BODY = "RESPONSE_BODY";
+
 	public static final String HTTP_ = "HTTP_";
 	public static final String HTTP_USER_AGENT = HTTP_ + "User-Agent";
 	public static final String HTTP_HOST = HTTP_ + "Host";
@@ -65,5 +68,5 @@ public interface Rack {
 	 * @return a RackResponse object with status code, headers and either a String, byte[] or File payload.
 	 * 
 	 */
-	RackResponse call(Context<Object> environment) throws Exception;
+	Context<String> call(Context<String> environment) throws Exception;
 }

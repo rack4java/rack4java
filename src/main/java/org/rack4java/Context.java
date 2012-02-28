@@ -9,8 +9,9 @@ import java.util.Map;
  * @see java.util.Map
  * @see org.rack4java.context.MapContext
  */
-public interface Context<T> extends Iterable<Map.Entry<String,T>> {
+public interface Context<T> extends Iterable<Map.Entry<String,Object>> {
+	Object getObject(String key);
 	T get(String key);
-	Context<T> with(String key, T value);
-	T remove(String key);
+	Context<T> with(String key, Object value);
+	Object remove(String key);
 }

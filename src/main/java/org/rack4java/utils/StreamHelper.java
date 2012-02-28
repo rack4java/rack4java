@@ -57,8 +57,8 @@ public class StreamHelper {
 		return new String(readAsBytes(in, length), charset);
 	}
 	
-	public static String readRequestBodyAsString(Context<Object> environment) throws IOException {
-    	InputStream in = (InputStream) environment.get(Rack.RACK_INPUT);
+	public static String readRequestBodyAsString(Context<String> environment) throws IOException {
+    	InputStream in = (InputStream) environment.getObject(Rack.RACK_INPUT);
     	long length = getRequestContentlength(environment);
     	Charset charset = getRequestCharacterSet(environment);
     	
@@ -77,8 +77,8 @@ public class StreamHelper {
 		return readAsString(in);
 	}
 	
-	public static byte[] readRequestBodyAsBytes(Context<Object> environment) throws IOException {
-    	InputStream in = (InputStream) environment.get(Rack.RACK_INPUT);
+	public static byte[] readRequestBodyAsBytes(Context<String> environment) throws IOException {
+    	InputStream in = (InputStream) environment.getObject(Rack.RACK_INPUT);
     	long length = getRequestContentlength(environment);
     	
     	if (length > 0) {
@@ -93,7 +93,7 @@ public class StreamHelper {
 	 * 
 	 * @return the converted value or 0 if not supplied 
 	 */
-	public static long getRequestContentlength(Context<Object> environment) {
+	public static long getRequestContentlength(Context<String> environment) {
 		long length = 0;
     	String contentLength = (String) environment.get(Rack.HTTP_ + "Content-Length");
     	if (null != contentLength) length = Long.parseLong(contentLength);
@@ -107,7 +107,7 @@ public class StreamHelper {
 	 * 
 	 * @return the converted value or null if invald or not supplied 
 	 */
-	public static Charset getRequestCharacterSet(Context<Object> environment) {
+	public static Charset getRequestCharacterSet(Context<String> environment) {
 		Charset charset = null;
     	String contentType = (String) environment.get(Rack.HTTP_ + "Content-Type");
     	if (null != contentType) {

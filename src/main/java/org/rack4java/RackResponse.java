@@ -1,108 +1,86 @@
 package org.rack4java;
 
-import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.charset.Charset;
 import java.util.Map;
 
+import org.rack4java.body.BytesRackBody;
+import org.rack4java.body.FileRackBody;
+import org.rack4java.body.StringRackBody;
 import org.rack4java.context.MapContext;
-import org.rack4java.utils.StreamHelper;
 
-public class RackResponse {
-	public enum Type { file, stream };
+public class RackResponse extends MapContext<String> {
 	
-    private final int status;
-    private final Context<String> headers;
-
-    // preserved if supplied, but auto-converted where required
-    private File file;
-
-    private InputStream stream;
-    private long length = Long.MAX_VALUE;
-    
+	public RackResponse(Context<String> env) {
+		for (Map.Entry<String, Object> entry : env) {
+			with(entry.getKey(), entry.getValue());
+		}
+	}
+   
     public RackResponse(int status) {
-    	this.status = status;
-    	this.headers = new MapContext<String>();
+    	with(Rack.RESPONSE_STATUS, status);
     }
     
     public RackResponse withHeader(String key, String value) {
-    	headers.with(key, value);
+    	with(Rack.HTTP_ + key, value);
     	return this;
     }
     
     public RackResponse withHeaders(Context<String> headers) {
-    	for (Map.Entry<String, String> entry : headers) {
-        	headers.with(entry.getKey(), entry.getValue());
+    	for (Map.Entry<String, Object> entry : headers) {
+        	withHeader(entry.getKey(), (String)entry.getValue());
     	}
     	return this;
     }
     
-    public RackResponse withBody(InputStream stream, long length) {
-    	this.stream = stream;
-    	if (length > 0) withContentLength(length);
+    public RackResponse withBody(RackBody body) {
+    	with(Rack.RESPONSE_BODY, body);
+    	return this;
+    }
+    
+    public RackResponse withBody(String body) {
+    	with(Rack.RESPONSE_BODY, new StringRackBody(body));
+    	return this;
+    }
+    
+    public RackResponse withBody(byte[] bytes) {
+    	with(Rack.RESPONSE_BODY, new BytesRackBody(bytes));
+    	return this;
+    }
+    
+    public RackResponse withBody(File file) throws FileNotFoundException {
+    	with(Rack.RESPONSE_BODY, new FileRackBody(file));
     	return this;
     }
 
 	public RackResponse withContentLength(long length) {
-		this.length = length;
 		return withHeader("Content-Length", Long.toString(length));
 	}
 
 	public RackResponse withContentType(String type) {
 		return withHeader("Content-Type", type);
 	}
-    
-    public RackResponse withBody(byte[] bytes) {
-    	return withBody(new ByteArrayInputStream(bytes), bytes.length);
-    }
-    
-    public RackResponse withBody(String string, Charset charset) {
-    	return withBody(string.getBytes(charset));
-    }
-    
-    public RackResponse withBody(String string) {
-    	return withBody(string.getBytes());
-    }
-    
-    public RackResponse withBody(File file) throws FileNotFoundException {
-    	this.file = file;
-    	withBody(new FileInputStream(file), file.length());
-    	return this;
-    }
 
     public int getStatus() {
-        return status;
+        return (Integer)getObject(Rack.RESPONSE_STATUS);
     }
-
+    
+    public RackBody getBody() {
+    	return (RackBody) getObject(Rack.RESPONSE_BODY);
+    }
+    
     public Context<String> getHeaders() {
-        return headers;
-    }
-    
-    public long getBodyLength() {
-    	return length;
-    }
-    
-    public Type getResponseType() {
-    	return (null != file) ? Type.file : Type.stream; 
-    }
-    
-    public File getFileBody() {
-    	return file;
-    }
-
-    public InputStream getStreamBody() {
-    	return stream;
-    }
-    
-    public byte[] getBodyAsBytes() throws IOException {
-    	return StreamHelper.readAsBytes(stream, (int)length);
+    	Context<String> ret = new MapContext<String>();
+    	for (Map.Entry<String, Object> entry : this) {
+    		if (entry.getKey().startsWith(Rack.HTTP_)) {
+    			ret.with(entry.getKey().substring(Rack.HTTP_.length()), entry.getValue());
+    		}
+    	}
+    	
+    	return ret;
     }
     
     public String toString() {
-    	return "RackResponse[status=" + status + " type=" + getResponseType() + " headers=" + headers + "]";
+    	return "RackResponse[status=" + getStatus() + " body=" + getBody() + " headers=" + getHeaders() + "]";
     }
 }
