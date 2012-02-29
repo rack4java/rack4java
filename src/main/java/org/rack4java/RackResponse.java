@@ -2,6 +2,9 @@ package org.rack4java;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import org.rack4java.body.BytesRackBody;
@@ -66,12 +69,16 @@ public class RackResponse extends MapContext<String> {
     }
     
     public RackBody getBody() {
-    	return (RackBody) getObject(Rack.RESPONSE_BODY);
+    	return getBody(this);
     }
     
     public Context<String> getHeaders() {
+    	return getHeaders(this);
+    }
+    
+    public static Context<String> getHeaders(Context<String> env) {
     	Context<String> ret = new MapContext<String>();
-    	for (Map.Entry<String, Object> entry : this) {
+    	for (Map.Entry<String, Object> entry : env) {
     		if (entry.getKey().startsWith(Rack.HTTP_)) {
     			ret.with(entry.getKey().substring(Rack.HTTP_.length()), entry.getValue());
     		}
@@ -79,6 +86,48 @@ public class RackResponse extends MapContext<String> {
     	
     	return ret;
     }
+
+
+    public static RackBody getBody(Context<String> response) {
+		return (RackBody) response.getObject(Rack.RESPONSE_BODY);
+	}
+
+    public static String getBodyAsString(Context<String> response, Charset charset) {
+		StringBuilder ret = new StringBuilder();
+		for (byte[] chunk : getBody(response).getBodyAsBytes()) {
+			ret.append(new String(chunk, charset));
+		}
+		return ret.toString();
+	}
+	
+    public static String getBodyAsString(Context<String> response) {
+		StringBuilder ret = new StringBuilder();
+		for (byte[] chunk : getBody(response).getBodyAsBytes()) {
+			ret.append(new String(chunk));
+		}
+		return ret.toString();
+	}
+	
+    public static byte[] getBodyAsBytes(Context<String> response) {
+		RackBody body = getBody(response);
+		if (null == body) return null;
+		List<byte[]> chunks = new ArrayList<byte[]>();
+		int length = 0;
+		for (byte[] chunk : body.getBodyAsBytes()) {
+			length += chunk.length;
+			chunks.add(chunk);
+		}
+		byte[] ret = new byte[length];
+		int offset = 0;
+		for (byte[] chunk : chunks) {
+			int step = 0;
+			for (byte b : chunk) {
+				ret[offset + step++] = b;
+			}
+			offset += step;
+		}
+		return ret;
+	}
     
     public String toString() {
     	return "RackResponse[status=" + getStatus() + " body=" + getBody() + " headers=" + getHeaders() + "]";
