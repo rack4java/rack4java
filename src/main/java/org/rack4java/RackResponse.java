@@ -21,7 +21,7 @@ public class RackResponse extends MapContext<String> {
 	}
    
     public RackResponse(int status) {
-    	with(Rack.RESPONSE_STATUS, status);
+    	with(Rack.MESSAGE_STATUS, status);
     }
     
     public RackResponse withHeader(String key, String value) {
@@ -37,22 +37,22 @@ public class RackResponse extends MapContext<String> {
     }
     
     public RackResponse withBody(RackBody body) {
-    	with(Rack.RESPONSE_BODY, body);
+    	with(Rack.MESSAGE_BODY, body);
     	return this;
     }
     
     public RackResponse withBody(String body) {
-    	with(Rack.RESPONSE_BODY, new StringRackBody(body));
+    	with(Rack.MESSAGE_BODY, new StringRackBody(body));
     	return this;
     }
     
     public RackResponse withBody(byte[] bytes) {
-    	with(Rack.RESPONSE_BODY, new BytesRackBody(bytes));
+    	with(Rack.MESSAGE_BODY, new BytesRackBody(bytes));
     	return this;
     }
     
     public RackResponse withBody(File file) throws FileNotFoundException {
-    	with(Rack.RESPONSE_BODY, new FileRackBody(file));
+    	with(Rack.MESSAGE_BODY, new FileRackBody(file));
     	return this;
     }
 
@@ -65,7 +65,7 @@ public class RackResponse extends MapContext<String> {
 	}
 
     public int getStatus() {
-        return (Integer)getObject(Rack.RESPONSE_STATUS);
+        return (Integer)getObject(Rack.MESSAGE_STATUS);
     }
     
     public RackBody getBody() {
@@ -89,7 +89,7 @@ public class RackResponse extends MapContext<String> {
 
 
     public static RackBody getBody(Context<String> response) {
-		return (RackBody) response.getObject(Rack.RESPONSE_BODY);
+		return (RackBody) response.getObject(Rack.MESSAGE_BODY);
 	}
 
     public static String getBodyAsString(Context<String> response, Charset charset) {

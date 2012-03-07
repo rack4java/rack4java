@@ -40,8 +40,8 @@ public interface Rack {
 	public static final String SERVER_NAME = "SERVER_NAME";
 	public static final String SERVER_PORT = "SERVER_PORT";
 
-	public static final String RESPONSE_STATUS = "RESPONSE_STATUS";
-	public static final String RESPONSE_BODY = "RESPONSE_BODY";
+	public static final String MESSAGE_STATUS = "MESSAGE_STATUS";
+	public static final String MESSAGE_BODY = "MESSAGE_BODY";
 
 	public static final String HTTP_ = "HTTP_";
 	public static final String HTTP_USER_AGENT = HTTP_ + "User-Agent";
