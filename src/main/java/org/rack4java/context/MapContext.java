@@ -29,6 +29,13 @@ public class MapContext<T> implements Context<T> {
 		map.put(key, value);
 		return this;
 	}
+	
+	public MapContext<T> with(Context<String> context) {
+		for (Map.Entry<String, Object> entry : context) {
+			with(entry.getKey(), entry.getValue());
+		}
+		return this;
+	}
 
 	public Map<String, Object> getMap() {
 		return map;
