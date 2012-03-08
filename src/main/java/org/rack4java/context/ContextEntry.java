@@ -2,7 +2,7 @@ package org.rack4java.context;
 
 import java.util.Map;
 
-class ContextEntry<T> implements Map.Entry<String, T> {
+public class ContextEntry<T> implements Map.Entry<String, T> {
 	private final String key;
 	private T value;
 
@@ -27,5 +27,9 @@ class ContextEntry<T> implements Map.Entry<String, T> {
 		T ret = this.value;
 		this.value = value;
 		return ret;
+	}
+	
+	public String toString() {
+		return key + "=" + value;
 	}
 }
