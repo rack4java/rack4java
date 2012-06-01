@@ -18,14 +18,14 @@ the standard way to interface web applications with web servers. This simplicty 
 
 * it's much easier to implement, so lots of people can support it in their servers
 * it's much easier to work with, so both frameworks and raw applications can be simpler
-* it's much easier to mock/stub, to framework and application code is easier to test
+* it's much easier to mock/stub, so framework and application code is easier to test
 * it's much easier to use the "decorator" pattern, so applications can be much more modular
 
-The last point is particularly important. Ruby Tack has a vibrant ecosystem of "middleware" for all sorts of 
+The last point is particularly important. Ruby Rack has a vibrant ecosystem of "middleware" for all sorts of 
 common tasks and processes, making application developmentmuch easier by simply combining and re-arranging 
 pre-built blocks with no change to application code at all.
 
-/I want these benefits for my Java development!/
+_I want these benefits for my Java development!_
 
 # Rack 4 Java is An ultra-lightweight Rack port for Java
 
@@ -33,7 +33,7 @@ The key goals of this project are:
 
 1. To produce a tiny Rack layer for Java, with no external dependencies
 2. To ensure that it works acceptably for all types of HTTP request and response
-3. To be as compatible as possible with the spirit of the original [**Rack** specification][2]
+3. To be as compatible as possible with the spirit of the original [Rack specification][2]
 4. To be as performant as possible within the constraints of the essential API
 
 All of these goals contribute to the overall aim of a very thin, agnostic layer to connect wildly different types 
@@ -61,7 +61,12 @@ A Rack4Java application can be very simple. For example:
         }
     }
   
-When plugged in to a Rack4Java friendly server, this will respond with the usual greeting to any request
+When plugged in to a Rack4Java friendly server, this will respond with the usual greeting to any request.
+
+Notes:
+* Java is strongly typed and does not (yet?) have a sensible or concise literal syntax for Arrays and Maps, so the code looks a bit different to the Ruby version
+* [**Context**](blob/master/src/main/java/org/rack4java/Context.java) is just a very simple interface, roughly equivalent to Map&lt;String,?&gt;
+* [**RackResponse**](blob/master/src/main/java/org/rack4java/RackResponse.java) is just a **Context** with a bunch of helper methods. You don't have to use it and can return any **Context** which has the appropriate entries.
 
 # Associated Projects
 
