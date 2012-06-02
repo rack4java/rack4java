@@ -65,8 +65,8 @@ When plugged in to a Rack4Java friendly server, this will respond with the usual
 
 Notes:
 * Java is strongly typed and does not (yet?) have a sensible or concise literal syntax for Arrays and Maps, so the code looks a bit different to the Ruby version
-* [**Context**](blob/master/src/main/java/org/rack4java/Context.java) is just a very simple interface, roughly equivalent to Map&lt;String,?&gt;
-* [**RackResponse**](blob/master/src/main/java/org/rack4java/RackResponse.java) is just a **Context** with a bunch of helper methods. You don't have to use it and can return any **Context** which has the appropriate entries.
+* [**Context**](/rack4java/rack4java/blob/master/src/main/java/org/rack4java/Context.java) is just a very simple interface, roughly equivalent to Map&lt;String,?&gt;
+* [**RackResponse**](/rack4java/rack4java/blob/master/src/main/java/org/rack4java/RackResponse.java) is just a **Context** with a bunch of helper methods. You don't have to use it and can return any **Context** which has the appropriate entries.
 
 # Associated Projects
 
