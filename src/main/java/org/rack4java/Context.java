@@ -9,7 +9,7 @@ import java.util.Map;
  * @see java.util.Map
  * @see org.rack4java.context.MapContext
  */
-public interface Context<T> extends Iterable<Map.Entry<String,Object>> {
+public interface Context<T> extends Iterable<Map.Entry<String,T>> {
 	Object getObject(String key);
 	T get(String key);
 	Context<T> with(String key, Object value);

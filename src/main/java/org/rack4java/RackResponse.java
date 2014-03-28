@@ -15,7 +15,7 @@ import org.rack4java.context.MapContext;
 public class RackResponse extends MapContext<String> {
 	
 	public RackResponse(Context<String> env) {
-		for (Map.Entry<String, Object> entry : env) {
+		for (Map.Entry<String, String> entry : env) {
 			with(entry.getKey(), entry.getValue());
 		}
 	}
@@ -30,7 +30,7 @@ public class RackResponse extends MapContext<String> {
     }
     
     public RackResponse withHeaders(Context<String> headers) {
-    	for (Map.Entry<String, Object> entry : headers) {
+    	for (Map.Entry<String, String> entry : headers) {
         	withHeader(entry.getKey(), (String)entry.getValue());
     	}
     	return this;
@@ -78,7 +78,7 @@ public class RackResponse extends MapContext<String> {
     
     public static Context<String> getHeaders(Context<String> env) {
     	Context<String> ret = new MapContext<String>();
-    	for (Map.Entry<String, Object> entry : env) {
+    	for (Map.Entry<String, String> entry : env) {
     		if (entry.getKey().startsWith(Rack.HTTP_)) {
     			ret.with(entry.getKey().substring(Rack.HTTP_.length()), entry.getValue());
     		}

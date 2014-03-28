@@ -7,37 +7,38 @@ import java.util.Map;
 import org.rack4java.Context;
 
 public class MapContext<T> implements Context<T> {
-	protected Map<String, Object> map;
+	protected Map<String, T> map;
 	
-	public MapContext(Map<String, Object> map) {
+	public MapContext(Map<String, T> map) {
 		this.map = map;
 	}
 	
 	public MapContext() {
-		this(new LinkedHashMap<String, Object>());
+		this(new LinkedHashMap<String, T>());
 	}
 
 	@Override public Object getObject(String key) {
 		return map.get(key);
 	}
 
-	@SuppressWarnings("unchecked") @Override public T get(String key) {
+	@Override public T get(String key) {
 		return (T)map.get(key);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override public Context<T> with(String key, Object value) {
-		map.put(key, value);
+		map.put(key, (T)value);
 		return this;
 	}
 	
-	public MapContext<T> with(Context<String> context) {
-		for (Map.Entry<String, Object> entry : context) {
+	public MapContext<T> with(Context<T> context) {
+		for (Map.Entry<String, T> entry : context) {
 			with(entry.getKey(), entry.getValue());
 		}
 		return this;
 	}
 
-	public Map<String, Object> getMap() {
+	public Map<String, T> getMap() {
 		return map;
 	}
 	
@@ -49,7 +50,7 @@ public class MapContext<T> implements Context<T> {
 		return map.remove(key);
 	}
 
-	@Override public Iterator<Map.Entry<String, Object>> iterator() {
+	@Override public Iterator<Map.Entry<String, T>> iterator() {
 		return map.entrySet().iterator();
 	}
 }
